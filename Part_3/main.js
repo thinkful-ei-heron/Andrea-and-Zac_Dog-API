@@ -16,24 +16,26 @@ function onSubmit() {
 function createHTML(breed) {
 	fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
 	.then(result => result.json())
-	.then(jsonData => extractImg(jsonData))
+	.then(jsonData => extractImg(jsonData, breed))
 	.catch(e => {
 		console.log(e);
-		notFound(breed);
+		// notFound(breed);
 	});
 		
 }
 
-function extractImg(data) {
+function extractImg(data,breed) {
 	let {
 		message,
 		status,
 	} = data;
 
+	if (data.status === 'error') notFound(breed);
+	else {
 	$('.output').append(`
 			<img src='${data.message}'>
 		`);
-}
+}}
 
 function notFound(search) {
 	$('.output').append(`
