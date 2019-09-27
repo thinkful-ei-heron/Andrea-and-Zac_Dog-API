@@ -12,14 +12,30 @@ function onSubmit() {
 		}
 		else {
 		console.log(numberOfDogs);
-
-	for (let i = 0; i < numberOfDogs; i++) {
-		const dogs = fetch('https://dog.ceo/api/breeds/image/random')
-		.then(result => result.json())
-		.then(resultJson => console.log(resultJson))
-		.catch(e => console.log(e));
-	}
+		$('.output').html('');
+		createHTML(numberOfDogs);
 	}});
+}
+
+function createHTML(num) {
+	for (let i = 0; i < num; i++) {
+		fetch('https://dog.ceo/api/breeds/image/random')
+		.then(result => result.json())
+		.then(jsonData => extractImg(jsonData))
+		.catch(e => console.log(e));
+		
+	}
+}
+
+function extractImg(data) {
+	let {
+		message,
+		status,
+	} = data;
+
+	$('.output').append(`
+			<img src='${data.message}'>
+		`);
 }
 
 onSubmit();
